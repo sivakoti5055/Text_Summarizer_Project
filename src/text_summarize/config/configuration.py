@@ -1,5 +1,5 @@
 from text_summarize.constants import *
-from text_summarize.entity import DataIngestionConfig
+from text_summarize.entity import DataIngestionConfig, DataValidationConfig
 from text_summarize.utils.common import read_yaml,create_directories
 
 class ConfigurationManager:
@@ -17,3 +17,14 @@ class ConfigurationManager:
             unzip_dir = config.unzip_dir
         )
         return data_ingestion_object
+    
+    def data_validation_object(self)->DataValidationConfig:
+        config = self.config.data_validation
+        create_directories([config.root_dir])
+                
+        data_val_object = DataValidationConfig(
+            root_dir = config.root_dir,
+            STATUS_FILE = config.STATUS_FILE,
+            ALL_REQUIRED_FILE = config.ALL_REQUIRED_FILES
+        )
+        return data_val_object

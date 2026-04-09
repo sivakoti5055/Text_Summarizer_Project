@@ -1,4 +1,4 @@
-from text_summarize.components import DataIngestion
+from text_summarize.components.data_ingestion import DataIngestion
 from text_summarize.config.configuration import ConfigurationManager
 
 
