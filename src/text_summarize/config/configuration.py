@@ -1,5 +1,5 @@
 from text_summarize.constants import *
-from text_summarize.entity import DataIngestionConfig, DataValidationConfig
+from text_summarize.entity import DataIngestionConfig, DataTransformationConfig, DataValidationConfig, ModelTrainingConfig
 from text_summarize.utils.common import read_yaml,create_directories
 
 class ConfigurationManager:
@@ -28,3 +28,34 @@ class ConfigurationManager:
             ALL_REQUIRED_FILE = config.ALL_REQUIRED_FILES
         )
         return data_val_object
+    
+
+    
+    def get_data_transformation_object(self)->DataTransformationConfig:
+        config = self.config.data_transformation
+        data_object = DataTransformationConfig(
+            root_dir = config.root_dir,
+            data_path = config.data_path,
+            tokenizer_name = config.tokenizer_name
+        )
+        return data_object
+    
+    def get_model_training_object(self)->ModelTrainingConfig:
+        config = self.config.model_training
+        params = self.params.TrainingArguments
+        model_trainer_config = ModelTrainingConfig(
+                root_dir=config.root_dir,
+                data_path=config.data_path,
+                model_ckpt = config.model_ckpt,
+                num_train_epochs = params.num_train_epochs,
+                warmup_steps = params.warmup_steps,
+                per_device_train_batch_size = params.per_device_train_batch_size,
+                weight_decay = params.weight_decay,
+                logging_steps = params.logging_steps,
+                evaluation_strategy = params.evaluation_strategy,
+                eval_steps = params.evaluation_strategy,
+                save_steps = params.save_steps,
+                gradient_accumulation_steps = params.gradient_accumulation_steps
+            )
+        return model_trainer_config
+    
